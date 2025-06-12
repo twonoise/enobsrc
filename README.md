@@ -8,7 +8,11 @@ Note that to take advantage of lower than ~25 bit (float) noise, it is need:
 1. To compile using double precision, see Usage;
 2. It is impossible with JACK directly, because JACK uses float samples. But we will provide extra "residue bits" output for synthetic tests, if your system able to sum two JACK samples flow with at least double precision.
 
-The purpose of it is to be companion for high resolution Spectrum Analyzer, like our `jasmine-sa`, for **Effective number of bits (ENOB)** tests, by comparsion two noise floors with SA: one of from DUT (device under test, like DAC+ADC) and another from this source with variable ENOB. We get then well reproduceable ENOB measurements.
+The purpose of this test source is to be companion for high resolution Spectrum Analyzer, like our <tt>[jasmine-sa](https://github.com/twonoise/jasmine-sa),</tt> for **Effective number of bits (ENOB)** tests, by comparsion two noise floors with SA: 
+* one of from DUT (device under test, like DAC+ADC),
+* and another one (or several) from this source(s) with variable ENOB.
+  
+We get then well reproduceable ENOB measurements.
 
 To be continued
 
