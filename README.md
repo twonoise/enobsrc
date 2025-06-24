@@ -16,6 +16,12 @@ We get then well reproduceable ENOB measurements.
 
 To be continued
 
+Known Bugs
+----------
+* There is no _**output** CV port_ for lv2 plugins (i.e., `faust2lv2`) support currently. One need to [manually update](https://github.com/twonoise/enobsrc/blob/19a64f5b5cb59c116e66a3cdc77178235e5896aa/enobsrc.dsp#L41) generated `.ttl` file.
+See https://github.com/grame-cncm/faust/discussions/1140
+* There is no integer input _sliders_ support currently. Again, one need to [manually update](https://github.com/twonoise/enobsrc/blob/19a64f5b5cb59c116e66a3cdc77178235e5896aa/enobsrc.dsp#L22) generated `.ttl` file after compile. <br>
+I was told on chat that refactoring of Faust is planned, so we may obtain integers soon, so i am do not report this issue currently.
 
 
 
