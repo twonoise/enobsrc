@@ -20,7 +20,7 @@ import("stdfaust.lib");
 signal = os.osci(100.071);
 
 // * NOTE Edit .ttl required for this port: *
-// Please add lv2:integer .
+// Please add   lv2:portProperty lv2:integer ;
 bits = nentry("Bits", 16, 8, 31, 1) : int;
 signBit = 1;
 quant = 1.0 / (1 << (bits - signBit));
