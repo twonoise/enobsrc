@@ -3,6 +3,8 @@ ENOB (effective number of bits) test source using Faust and lv2
 
 DESCRIPTION
 -----------
+_Please read and understand exactly the purpose of ANSI C code at [1]:p.22._
+
 This audio signal source emits unity single sine tone (and maybe extra sideway tiny 'noise-randomizing' 2nd sine tone), quantized with required number of bits.
 Note that to take advantage of lower than ~25 bit (float) noise, it is need:
 1. To compile using double precision, see Usage;
@@ -23,7 +25,9 @@ See https://github.com/grame-cncm/faust/discussions/1140
 * There is no input _**integer** sliders_ support currently. Again, one need to [manually update](https://github.com/twonoise/enobsrc/blob/19a64f5b5cb59c116e66a3cdc77178235e5896aa/enobsrc.dsp#L22) generated `.ttl` file after compile. <br>
 I was told on chat that refactoring of Faust is planned, so we may obtain integers soon, so i am do not report this issue currently.
 
-
+CREDITS
+-------
+[1] https://holometer.fnal.gov/GH_FFT.pdf
 
 
 
