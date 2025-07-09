@@ -3,7 +3,7 @@ ENOB (effective number of bits) test source using Faust and lv2
 
 DESCRIPTION
 -----------
-_Please read and understand exactly the purpose of ANSI C code at [1]:p.22._
+_Please read and understand exactly the purpose of ANSI C code at [^1]:p.22._
 
 This audio signal source emits unity single sine tone (and maybe extra sideway tiny 'noise-randomizing' 2nd sine tone), quantized with required number of bits.
 Note that to take advantage of lower than ~25 bit (float) noise, it is need:
@@ -28,7 +28,7 @@ I was told on chat that refactoring of Faust is planned, so we may obtain intege
 
 CREDITS
 -------
-[1] https://holometer.fnal.gov/GH_FFT.pdf
+[^1]: https://holometer.fnal.gov/GH_FFT.pdf
 
 
 
