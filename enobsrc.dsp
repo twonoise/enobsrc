@@ -1,5 +1,7 @@
-declare name "ENOBSrc";
-declare version "0.01";
+// faust2lv2 -double enobsrc.dsp  &&  sed -i -e 's/out0/Quantized/g' -e 's/out1/QuantizedMicro/g' -e 's/out2/Straight/g' -e 's/out3/StraightMicro/g' -e 's/out4/UNUSED0/g' -e 's/out5/UNUSED1/g' -e '/lv2:name "Comb/a\\tlv2:portProperty lv2:integer ;' -e '/lv2:name "Bits/a\\tlv2:portProperty lv2:integer ;' enobsrc.lv2/enobsrc.ttl  &&  cp -R ./enobsrc.lv2/ /usr/local/lib/lv2/
+
+declare name "ENOBSrc"; // No spaces to better 'jack_lsp' work.
+declare version "0.02";
 declare author "jpka";
 declare license "MIT";
 declare description "ENOB (effective number of bits) test source using Faust and lv2";
@@ -17,14 +19,16 @@ import("stdfaust.lib");
 
 // Quantization is not perfect at near-signal freqs (for unknown reason yet), so we lower our freq to like 100 Hz. Above ~1 kHz it is near perfect to allow set cursor at SA for noise measurements.
 // Added: osci good for 18-31 bits, but for 12-20 bits, two osc's are better.
-signal = os.osci(100.071);
+freq = 100.071;
 
-// * NOTE Edit .ttl required for this port: *
-// Please add   lv2:portProperty lv2:integer ;
+numMaxLog = 7; // If more, can be too CPU hungry. Use 1 if 1-tone only need, to save CPU.
+num = 1 << (nentry("Comb", 0, 0, numMaxLog, 1) : int);
+signal = par(i, 1 << numMaxLog, os.osci(freq*(i+1)) * (i < num)) :> / (num);
+
 bits = nentry("Bits", 16, 8, 31, 1) : int;
 signBit = 1;
 quant = 1.0 / (1 << (bits - signBit));
-micro = 1.0 / (1000*1000);
+micro = 1.0 / (1024*1024); // for 20 ENOB; 1000*1000 for 60 dB
 
 process =
 // NOTE: remember, we compile with -double.
@@ -34,14 +38,15 @@ process =
 // straight one (with same limitation);
 // and two highly attenuated versions of both, to test SA's dynamic and ENOB scale.
 // These two small signals also acts as "residue" bits. When SNR better than samples transport system offer is need, like 32-bit ('single') float limitation which have near 25 bit SNR (full scale), we add extra "residue" channel and sum both in our receiver to get extra ~20 bit resolution (using 'double' math, at least, of course).
- ( signal <: (int(_ / quant + 0.5) * quant <: _ * (1 - micro), _ * micro),
-  (_ <: _ * (1 - micro), _ * micro) ),
+	( signal <: (int(_ / quant + 0.5) * quant <: _ * (1 - micro), _ * micro),
+				(_ <: _ * (1 - micro), _ * micro) ),
 
 // Check points.
 // * NOTE Edit .ttl required for each of these two ports: *
-// From: a lv2:OutputPort ;
-//       a lv2:AudioPort ;
-// To:   a lv2:OutputPort, lv2:CVPort ;
+// From:	a lv2:OutputPort ;
+//			a lv2:AudioPort ;
+// To: 		a lv2:OutputPort, lv2:CVPort ;
 // See https://github.com/grame-cncm/faust/discussions/1140
- ( bits : vbargraph("Bits Check [CV:0]", 8, 32) ),
- ( quant : ba.linear2db : vbargraph("Quant dB [CV:1]", -240, 0) );
+	( bits : vbargraph("Bits Check [CV:0]", 8, 32) ),
+	( quant : ba.linear2db : vbargraph("Quant dB [CV:1]", -240, 0) )
+;
