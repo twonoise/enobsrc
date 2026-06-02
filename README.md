@@ -18,6 +18,14 @@ We get then well reproduceable ENOB measurements.
 
 To be continued
 
+Screenshot
+----------
+How it looks with [Carla](https://github.com/twonoise/carla-patches).
+
+<img alt="enobsrc" src="img/enobsrc.png" />
+
+
+
 Known Bugs
 ----------
 * There is no _**output** CV port_ for lv2 plugins (i.e., `faust2lv2`) support currently. One need to [manually update](https://github.com/twonoise/enobsrc/blob/19a64f5b5cb59c116e66a3cdc77178235e5896aa/enobsrc.dsp#L41) generated `.ttl` file.
